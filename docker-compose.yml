@@ -1,0 +1,39 @@
+name: baozi-services
+
+services:
+  baozi-mysql:
+    image: mysql:latest
+    container_name: baozi-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: baozistoredb
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    ports:
+      - "3307:3306"
+    volumes:
+      - /var/lib/mysql
+    networks:
+      - mysql_network
+
+  # Opcional: phpMyAdmin para gerenciamento do MySQL via interface web
+  baozi-phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: baozi-phpmyadmin
+    depends_on:
+      - baozi-mysql
+    environment:
+      PMA_HOST: baozi-mysql
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+      PMA_ARBITRARY: 1
+    ports:
+      - "5050:80"
+    networks:
+      - mysql_network
+
+networks:
+  mysql_network:
+    driver: bridge
