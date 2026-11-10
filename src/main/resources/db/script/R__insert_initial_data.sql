@@ -1,5 +1,5 @@
 -- CLIENTS
-INSERT INTO client_tb (id, name, client_since, created_by_user_id, created_at)
+INSERT INTO customer_tb (id, name, customer_since, created_by_user_id, created_at)
 VALUES
     (1, 'Nathan5210097', '2022-11-10', 0, '2022-11-10 00:00:00'),
     (2, 'Maria Oliveira', '2023-06-20', 1, '2023-06-20 00:00:00'),
@@ -23,7 +23,7 @@ VALUES
     (10, 'Cadeira Gamer', 1299.90, TRUE, 1, '2022-11-10 00:00:00');
 
 -- ORDERS
-INSERT INTO order_tb (id, cliente_id, product_id, quantity, created_by_user_id, created_at)
+INSERT INTO order_tb (id, customer_id, product_id, quantity, created_by_user_id, created_at)
 VALUES
     (1, 1, 1, 1, 1, '2022-11-10 00:00:00'),
     (2, 1, 2, 2, 1, '2022-11-10 00:00:00'),

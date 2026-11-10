@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 @Entity
-@Table(name = "client_tb")
+@Table(name = "customer_tb")
 @Data
 @ToString(of= "id")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -20,14 +20,14 @@ import java.time.OffsetDateTime;
 @AllArgsConstructor
 @Builder
 @EntityListeners(AuditingEntityListener.class)
-public class Client {
+public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
     private String name;
-    private LocalDate clientSince;
+    private LocalDate customerSince;
 
     @CreatedBy
     private Long createdByUserId;

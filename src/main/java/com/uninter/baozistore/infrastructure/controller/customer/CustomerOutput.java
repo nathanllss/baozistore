@@ -11,5 +11,5 @@ public class CustomerOutput {
 
     private Long id;
     private String name;
-    private LocalDate clientSince;
+    private LocalDate customerSince;
 }

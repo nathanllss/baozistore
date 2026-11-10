@@ -12,5 +12,5 @@ public class ProductOutput {
     private Long id;
     private String name;
     private BigDecimal price;
-    private Integer quantityInStock;
+    private Boolean inStock;
 }

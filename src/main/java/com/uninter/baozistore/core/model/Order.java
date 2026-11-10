@@ -8,6 +8,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 @Entity
@@ -26,8 +27,8 @@ public class Order {
     @EqualsAndHashCode.Include
     private Long id;
     @ManyToOne
-    @JoinColumn(name = "cliente_id")
-    private Client client;
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
@@ -44,4 +45,11 @@ public class Order {
 
     @LastModifiedBy
     private Long lastModifiedByUserId;
+
+    public BigDecimal calculatePrice() {
+        if (product == null || product.getPrice() == null || quantity == null) {
+            return BigDecimal.ZERO;
+        }
+        return product.getPrice().multiply(BigDecimal.valueOf(quantity));
+    }
 }

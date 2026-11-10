@@ -3,5 +3,5 @@ spring:
     name: baozistore
   profiles:
     active:
-      - prod
+      - dev
     default: dev
