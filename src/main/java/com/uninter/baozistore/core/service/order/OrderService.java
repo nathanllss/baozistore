@@ -7,11 +7,9 @@ import com.uninter.baozistore.core.model.Product;
 import com.uninter.baozistore.core.repository.customer.CustomerRepository;
 import com.uninter.baozistore.core.repository.order.OrderRepository;
 import com.uninter.baozistore.core.repository.product.ProductRepository;
-import com.uninter.baozistore.core.service.customer.CustomerService;
+import com.uninter.baozistore.infrastructure.controller.order.OrderInput;
 import com.uninter.baozistore.infrastructure.controller.order.OrderOutput;
 import com.uninter.baozistore.infrastructure.exception.NotFoundException;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -30,11 +28,12 @@ public class OrderService {
         this.customerRepository = customerRepository;
     }
 
-    public OrderOutput createOrder(Long customerId, Long productId, Integer quantity) {
-        Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new NotFoundException(Messages.CUSTOMER_NOT_FOUND + " " + customerId));
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new NotFoundException(Messages.PRODUCT_NOT_FOUND + " " + productId));
+    public OrderOutput createOrder(OrderInput input) {
+        Customer customer = customerRepository.findById(input.getCustomerId())
+                .orElseThrow(() -> new NotFoundException(Messages.CUSTOMER_NOT_FOUND + " " + input.getCustomerId()));
+        Product product = productRepository.findById(input.getProductId())
+                .orElseThrow(() -> new NotFoundException(Messages.PRODUCT_NOT_FOUND + " " + input.getProductId()));
+        Integer quantity = input.getQuantity();
         if (quantity <= 0) {
             throw new IllegalArgumentException("Quantity must be greater than zero");
         }
@@ -57,6 +56,12 @@ public class OrderService {
 
     public List<OrderOutput> getAllOrders() {
         return orderRepository.findAll().stream()
+                .map(order -> new OrderOutput(order.getId(), order.getCustomer().getId(), order.getProduct().getId(), order.getQuantity(), order.calculatePrice()))
+                .toList();
+    }
+
+    public List<OrderOutput> getOrdersByCustomerId(Long customerId) {
+        return orderRepository.findAllByCustomer_Id(customerId).stream()
                 .map(order -> new OrderOutput(order.getId(), order.getCustomer().getId(), order.getProduct().getId(), order.getQuantity(), order.calculatePrice()))
                 .toList();
     }
