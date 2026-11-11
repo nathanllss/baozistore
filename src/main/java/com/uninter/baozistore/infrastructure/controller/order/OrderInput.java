@@ -11,6 +11,7 @@ public class OrderInput {
     private Long customerId;
     @NotNull
     private Long productId;
+    @NotNull
     @Min(value = 1, message = "Quantity must be at least 1")
     private Integer quantity;
 }
